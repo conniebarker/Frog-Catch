@@ -1,0 +1,17 @@
+public class snowblock : MonoBehaviour
+{
+
+    public Rigidbody2D rb;
+    public bool iskinematic;
+
+    // Update is called once per frame
+   private void Update()
+    {
+        if (iskinematic)
+        {
+            rb.isKinematic = false;
+        }
+    }
+
+   
+}
