@@ -1,0 +1,51 @@
+public class buttons : MonoBehaviour
+{
+    public Animator transition;
+    public GameObject pausemenu;
+    
+
+    public void start()
+    {
+       LoadNextLevel();
+    }
+
+
+    public void settings()
+    {
+        SceneManager.LoadScene(4);
+    }
+
+    public void quit()
+    {
+        Application.Quit();
+    }
+
+    public void restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void menu()
+    {
+        SceneManager.LoadScene(0);
+        Time.timeScale = 1;
+    }
+
+
+
+    //fadecutscenecode;
+    public void LoadNextLevel()
+    {
+        StartCoroutine(LoadLevel(SceneManager.GetActiveScene().buildIndex + 1));
+    }
+
+    IEnumerator LoadLevel(int levelIndex)
+    {
+        transition.SetTrigger("startpress");
+
+        yield return new WaitForSeconds(1);
+
+        SceneManager.LoadScene(levelIndex);
+    }
+
+}
