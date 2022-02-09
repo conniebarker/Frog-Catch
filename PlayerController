@@ -1,0 +1,94 @@
+public class playercontroller : MonoBehaviour
+{
+    public static playercontroller instance;
+    //public float speed;
+    public Vector3 direction;
+    public Vector2 jump;
+    public GameObject Player1;
+    public GameObject Player2;
+    private Rigidbody2D player1body;
+    private Rigidbody2D player2body;
+
+    public bool p2onground;
+    public bool p1onground;
+
+
+    //(replaces speed)
+    public float player1speed;
+    public float player2speed;
+    public float maxSpeed;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != null)
+        {
+            Debug.Log("only One playercontroller Script allowed");
+        }
+    }
+    private void Start()
+    {
+        player1body = Player1.GetComponent<Rigidbody2D>();
+        player2body = Player2.GetComponent<Rigidbody2D>();
+        
+
+        player1speed = maxSpeed;
+        player2speed = maxSpeed;
+    }
+
+   
+
+    void FixedUpdate()
+    {
+        //Check if players are assigned
+        if (Player1 && Player2)
+        {
+
+            //Processing Player1 inputs
+            if (Input.GetKey(KeyCode.A))
+            {
+                Player1.transform.position = new Vector3(Player1.transform.position.x - player1speed, Player1.transform.position.y, Player1.transform.position.z * Time.deltaTime);
+                Player1.transform.localScale = new Vector2(-1, 1);
+            }
+
+            if (Input.GetKey(KeyCode.D))
+            {
+                Player1.transform.position = new Vector3(Player1.transform.position.x + player1speed, Player1.transform.position.y, Player1.transform.position.z * Time.deltaTime);
+                Player1.transform.localScale = new Vector2(1, 1);
+            }
+
+            if (Input.GetKey(KeyCode.W) && p1onground == true)
+            {
+                player1body.AddForce(jump);
+                p1onground = false;
+            }
+
+
+            // Processing Player2 inputs
+            if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                Player2.transform.position = new Vector3(Player2.transform.position.x - player2speed, Player2.transform.position.y, Player2.transform.position.z * Time.deltaTime);
+                Player2.transform.localScale = new Vector2(-1, 1);
+
+            }
+            if (Input.GetKey(KeyCode.RightArrow))
+            {
+                Player2.transform.position = new Vector3(Player2.transform.position.x + player2speed, Player2.transform.position.y, Player2.transform.position.z * Time.deltaTime);
+                Player2.transform.localScale = new Vector2(1, 1);
+
+            }
+
+            if (Input.GetKey(KeyCode.UpArrow) && p2onground == true)
+            {
+                player2body.AddForce(jump);
+                p2onground = false;
+            }
+
+        }
+
+       
+    }
+}
