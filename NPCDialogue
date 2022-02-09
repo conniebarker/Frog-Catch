@@ -1,0 +1,82 @@
+public class NPCdialogue : MonoBehaviour
+{
+    public GameObject speech;
+    public bool PlayerInRange;
+    public GameObject text;
+    public AudioSource textnoise;
+    public bool setactivefromstart;
+    
+    
+    // Start is called before the first frame update
+    void Start()
+    {
+        if (!setactivefromstart)
+        {
+            speech.SetActive(false);
+            text.SetActive(false);
+        }
+    }
+
+    // Update is called once per frame
+   
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("player1"))
+        {
+            PlayerInRange = true;
+            textnoise.Play(0);
+            /*
+            if (speech.activeInHierarchy)
+            {
+                speech.SetActive(false);
+                text.SetActive(false);
+            }
+            else
+            {
+                speech.SetActive(true);
+                text.SetActive(true);
+                textnoise.Play(0);
+
+            }
+        
+        
+
+        if (collision.CompareTag("player2"))
+        {
+            PlayerInRange = true;
+           
+        }
+    }
+
+
+    void Update()
+    {
+        if (PlayerInRange)
+        {
+            speech.SetActive(true);
+            text.SetActive(true);
+            
+        }
+    }
+
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("player1"))
+        {
+            PlayerInRange = false;
+            speech.SetActive(false);
+            text.SetActive(false);
+        }
+
+        if (collision.CompareTag("player2"))
+        {
+            PlayerInRange = false;
+            speech.SetActive(false);
+            text.SetActive(false);
+        }
+    }
+
+    
+}
