@@ -1,0 +1,17 @@
+public class boulder : MonoBehaviour
+{
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "edgecollider")
+        {
+            Destroy(gameObject);
+            SceneManager.LoadScene(15);
+        }
+
+        if (collision.gameObject.tag == "middlebarrier")
+        {
+            Destroy(gameObject);
+
+        }
+    }
+}
