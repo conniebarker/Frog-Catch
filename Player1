@@ -1,0 +1,216 @@
+public class player1 : MonoBehaviour
+{
+    private playercontroller test;
+    public bool onGround;
+    private SpriteRenderer sprite;
+    private SceneColliderScript sceneColliderScript;
+    public GameObject scenecolliderholder;
+    public GameObject text;
+    public GameObject rainhat;
+
+    //ladder code
+    [Header("Ladder stuff")]
+    private float vertical;
+    private float speed = 8f;
+    private bool isLadder;
+    private bool isClimbing;
+    public int scenetogoto;
+    private float Speed;
+    public float maxSpeed;
+
+    public GameObject pausemenu;
+    public bool paused;
+
+
+    [SerializeField] private Rigidbody2D rb;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        test = playercontroller.instance;
+        onGround = true;
+
+        sceneColliderScript = scenecolliderholder.GetComponent<SceneColliderScript>();
+
+        rainhat.SetActive(false);
+
+        Speed = maxSpeed;
+
+        pausemenu.SetActive(false);
+
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Ground")
+        {
+            test.p1onground = true;
+        }
+
+        if (collision.gameObject.tag == "ice")
+        {
+            Speed = 0.05f;
+            test.player1speed = Speed;
+
+            test.p1onground = true;
+        }
+
+      
+
+        if (collision.gameObject.tag == "icicle") 
+        {
+            Destroy(gameObject);
+            SceneManager.LoadScene(scenetogoto);
+        }
+
+        if (collision.gameObject.tag == "edgecollider")
+        {
+            Destroy(gameObject);
+            SceneManager.LoadScene(scenetogoto);
+        }
+
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "ice")
+        {
+            Speed = maxSpeed;
+            test.player1speed = maxSpeed;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "SceneCollider")
+        {
+            sceneColliderScript.player1interacting = true;
+        }
+
+        if (collision.CompareTag("bluewall"))
+        {
+            Destroy(gameObject);
+
+            SceneManager.LoadScene(scenetogoto);
+        }
+
+        if (collision.CompareTag("greenwall"))
+        {
+            rainhat.SetActive(true);
+        }
+
+        if (collision.CompareTag("Ladder"))
+        {
+            GameObject ladder = collision.gameObject;
+            Ladder ladderscript = ladder.GetComponent<Ladder>();
+
+            if ((ladderscript.isladdersafe) || (ladderscript.safeforgreen))
+            {
+                isLadder = true;
+
+            }
+            if (ladderscript.isladdersafe && ladderscript.safeforgreen)
+            {
+                Destroy(gameObject);
+                SceneManager.LoadScene(scenetogoto);
+            }
+            
+        }
+
+        if (collision.gameObject.tag == "xdoor")
+        {
+            Destroy(gameObject);
+            SceneManager.LoadScene(scenetogoto);
+        }
+
+        if (collision.CompareTag("Fire"))
+        {
+            Destroy(gameObject);
+            SceneManager.LoadScene(scenetogoto);
+        }
+
+        if (collision.CompareTag("teleporter"))
+        {
+            Destroy(gameObject);
+            SceneManager.LoadScene(scenetogoto);
+        }
+
+        if (collision.gameObject.tag == "spike")
+        {
+            Destroy(gameObject);
+            SceneManager.LoadScene(scenetogoto);
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "SceneCollider")
+        {
+            sceneColliderScript.player1interacting = false;
+            text.SetActive(false);
+        }
+
+        if (collision.CompareTag("Ladder"))
+        {
+            isLadder = false;
+            isClimbing = false;
+        }
+
+        if (collision.CompareTag("greenwall"))
+        {
+            rainhat.SetActive(false);
+        }
+    }
+
+    private void Update()
+    {
+        vertical = Input.GetAxisRaw("Vertical");
+
+        if (isLadder && Mathf.Abs(vertical) > 0f)
+         {
+        isClimbing = true;
+          }
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            SceneManager.LoadScene(17);
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (paused)
+            {
+                paused = false;
+                Time.timeScale = 1;
+                pausemenu.SetActive(false);
+
+            }
+            else
+            {
+                paused = true;
+                Time.timeScale = 0;
+                pausemenu.SetActive(true);
+            }
+
+        }
+
+
+    }
+
+    private void FixedUpdate()
+    {
+        if (isClimbing)
+        {
+            rb.gravityScale = 0f;
+            rb.velocity = new Vector2(rb.velocity.x, vertical * speed);
+        }
+        else
+        {
+            rb.gravityScale = 4f;
+        }
+    }
+
+
+}
