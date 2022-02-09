@@ -1,0 +1,57 @@
+public class BoulderButton : MonoBehaviour
+{
+
+    public SpriteRenderer rend;
+    public Sprite unpressed;
+    public Sprite pressed;
+    private bool IsPressed;
+
+    public snowblock sb;
+
+    public GameObject boulderwater;
+    public bool boulderonly;
+
+    public GameObject snowBlock1;
+
+    public bool snowtriggered;
+
+    public bool iskinematic;
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if ((collision.CompareTag("boulder")))
+        {
+            rend.sprite = pressed;
+            IsPressed = true;
+
+            if (boulderonly)
+            {
+                sb.iskinematic = true;
+            }
+            if (snowtriggered)
+            {
+                sb.iskinematic = true;
+                Debug.Log("please");
+            }
+
+        }
+
+        void OnTriggerExit2D(Collider2D other)
+        {
+            if ((other.CompareTag("player1")) || (other.CompareTag("player2")))
+            {
+                rend.sprite = unpressed;
+                IsPressed = false;
+
+                if (boulderonly)
+                {
+                    sb.iskinematic = false;
+                }
+                if (snowtriggered)
+                {
+                    sb.iskinematic = false;
+                }
+            }
+        }
+    }
+}
