@@ -1,0 +1,143 @@
+public class PressButton : MonoBehaviour
+{
+    // Start is called before the first frame update
+    public SpriteRenderer rend;
+    public Sprite unpressed;
+    public Sprite pressed;
+    private bool IsPressed;
+    public GameObject Wall;
+    public bool triggerswall;
+    public bool isladdersafe;
+    public GameObject ladder;
+    private Ladder ladderscript;
+    public bool triggerladder;
+
+    public GameObject snowBlock1;
+    
+    public bool snowtriggered;
+    public snowblock sb;
+    public bool iskinematic;
+
+    public bool tilesActive;
+    public GameObject tiles;
+
+    public GameObject trigger;
+    public bool triggeron;
+
+    public GameObject spike;
+    public bool spikeOn;
+
+    public collider cl;
+    public bool triggersolid;
+
+
+    
+
+
+    void Start()
+    {
+        if (triggerswall)
+        {
+            Wall.SetActive(true);
+        }
+
+        ladderscript = ladder.GetComponent<Ladder>();
+
+        
+       
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+       // if (IsPressed) { rend.sprite = pressed; }
+       // if (!IsPressed) { rend.sprite = unpressed; }
+       
+        
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if ((collision.CompareTag("player1")) || (collision.CompareTag("player2") || (collision.CompareTag("boulder"))))
+        {
+            rend.sprite = pressed;
+            IsPressed = true;
+            Debug.Log("pressed");
+            if (triggerswall)
+            {
+                Wall.SetActive(false);
+            }
+            else if(triggerladder)
+            {
+                ladderscript.isladdersafe = true;
+              
+
+            }
+            if (snowtriggered)
+            {
+                sb.iskinematic = true;
+                Debug.Log("please");
+            }
+            if (tilesActive)
+            {
+                tiles.SetActive(true);
+                Debug.Log("hmm");
+            }
+            if (triggeron)
+            {
+                trigger.SetActive(true);
+            }
+            if (spikeOn)
+            {
+                spike.SetActive(false);
+            }
+            if (triggersolid)
+            {
+                cl.triggertrigger = false;
+            }
+           
+
+        }
+
+        
+
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if ((other.CompareTag("player1")) || (other.CompareTag("player2")))
+        {
+            rend.sprite = unpressed;
+            IsPressed = false;
+
+            if (triggerswall)
+            {
+                Wall.SetActive(true);
+            }
+            else if (triggerladder)
+            {
+                ladderscript.isladdersafe = false;
+            }
+            if (snowtriggered)
+            {
+                sb.iskinematic = false;
+            }
+            if (tilesActive)
+            {
+                tiles.SetActive(false);
+            }
+            if (triggeron)
+            {
+                trigger.SetActive(false);
+            }
+            if (spikeOn)
+            {
+                cl.triggertrigger = true;
+            }
+            
+        }
+    }
+
+
+}
