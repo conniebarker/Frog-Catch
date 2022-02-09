@@ -1,0 +1,21 @@
+public class collider : MonoBehaviour
+{
+    public GameObject player1;
+    public GameObject player2;
+    public bool triggertrigger;
+
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        if (triggertrigger)
+        {
+            player1 = GameObject.FindGameObjectWithTag("player1");
+            Physics2D.IgnoreCollision(GetComponent<Collider2D>(), player1.GetComponent<Collider2D>());
+
+            player2 = GameObject.FindGameObjectWithTag("player2");
+            Physics2D.IgnoreCollision(GetComponent<Collider2D>(), player2.GetComponent<Collider2D>());
+        }          
+        
+    }
+}
