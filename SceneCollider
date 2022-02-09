@@ -1,0 +1,26 @@
+public class SceneColliderScript : MonoBehaviour
+{
+    public int scenechange;
+    public GameObject waitingtext;
+
+    public bool player1interacting;
+    public bool player2interacting;
+    // Start is called before the first frame update
+    void Start()
+    {
+        waitingtext.SetActive(false);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (player1interacting || player2interacting) // or
+        {
+            waitingtext.SetActive(true);
+        }
+        if (player1interacting && player2interacting) //and
+        {
+            SceneManager.LoadScene(scenechange);
+        }
+        
+    }
