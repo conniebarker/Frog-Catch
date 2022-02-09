@@ -1,0 +1,33 @@
+public class Ladder : MonoBehaviour
+{
+    public GameObject ladder;
+    public bool isladdersafe;
+    public bool safeforblue;
+    public bool safeforgreen;
+
+    public Sprite greenvines;
+    public Sprite bluevines;
+    public SpriteRenderer rend;
+
+    private void Start()
+    {
+        rend.sprite = greenvines;
+    }
+
+                                                   
+
+    private void Update()
+    {
+        if (isladdersafe)
+        {
+            rend.sprite = bluevines;
+            
+
+        }
+
+        if (!isladdersafe)
+        {
+            rend.sprite = greenvines;
+        }
+    }
+}
